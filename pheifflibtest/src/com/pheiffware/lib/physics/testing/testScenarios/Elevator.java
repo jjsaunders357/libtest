@@ -15,9 +15,9 @@ import com.pheiffware.lib.physics.testing.TestPhysicsScenario;
  */
 public class Elevator extends TestPhysicsScenario
 {
-	public Elevator(float scenarioRuntime)
+	public Elevator(double scenarioRuntime, int numSteps)
 	{
-		super(scenarioRuntime);
+		super(scenarioRuntime, numSteps);
 	}
 
 	/*
@@ -28,10 +28,8 @@ public class Elevator extends TestPhysicsScenario
 	@Override
 	public void setup(PhysicsSystem physicsSystem)
 	{
-		physicsSystem.addEntity(new LineSegmentElevatorEntity(new Vec3D(0, 500,
-				0), new Vec3D(500, 500, 0), -1, 50000.0f, 1.0f, new Vec3D(0,
-				-100, 0), 100.0f));
-		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500,
-				0)));
+		physicsSystem.addEntity(new LineSegmentElevatorEntity(new Vec3D(0, 500, 0), new Vec3D(500, 500, 0), -1, 50000.0f, 1.0f,
+				new Vec3D(0, -100, 0), 100.0f));
+		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500, 0)));
 	}
 }

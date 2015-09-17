@@ -3,7 +3,6 @@ package com.pheiffware.lib.swing.testing;
 import java.awt.Color;
 import java.util.List;
 
-import com.pheiffware.lib.physics.PhysicsSystemManager;
 import com.pheiffware.lib.physics.entity.Entity;
 import com.pheiffware.lib.physics.testing.TestPhysicsScenario;
 import com.pheiffware.lib.physics.testing.TestingPhysicsSystemManager;
@@ -27,26 +26,21 @@ import com.pheiffware.lib.swing.renderPanel.RenderPanel;
 @SuppressWarnings("serial")
 public class PhysicsTestPanel extends RenderPanel
 {
-	private final PhysicsSystemManager physicsSystemManager;
+	private final TestingPhysicsSystemManager physicsSystemManager;
 
 	public PhysicsTestPanel()
 	{
 		super(800, 800, 0.01);
+		int numSteps = 3000;
 		// @formatter:off
 		TestPhysicsScenario[] physicsScenarios = new TestPhysicsScenario[]
-		{
-				new PolygonScenario(5.0f),
-				new StackedObjects(3.0f, 40.5f, 500.5f, 20, 5, 800, 0.9f),
-				new CompressedStackedObjects(8.0f, 40.5f, 500.5f, 20, 5, 800,
-						0.9f, 2500.0f, 300, 50),
-				new ConstrainedStackedObjectsDrop(5.0f, 40.5f, 500.5f, 20, 8,
-						800, 0.9f),
-				new ConstrainedStackedObjects(3.0f, 40.5f, 500.5f, 20, 7, 800,
-						0.9f), new PoolScenario(1.5f, 40, 500, 20, 5, 0.9f),
-				new ElevatorWithLoad(1.5f), new BouncingBall(1.0f),
-				new Elevator(1.0f), new SingleBallSitGround(),
-				new GeneralScenario1(3.0f), new GeneralScenario2(8.0f),
-				new SingleBallOnRamp(3.0f) };
+		{ new PolygonScenario(5.0f, numSteps), new StackedObjects(3.0f, numSteps, 40.5f, 500.5f, 20, 5, 800, 0.9f),
+				new CompressedStackedObjects(8.0f, numSteps, 40.5f, 500.5f, 20, 5, 800, 0.9f, 2500.0f, 300, 50),
+				new ConstrainedStackedObjectsDrop(5.0f, numSteps, 40.5f, 500.5f, 20, 8, 800, 0.9f),
+				new ConstrainedStackedObjects(3.0f, numSteps, 40.5f, 500.5f, 20, 7, 800, 0.9f),
+				new PoolScenario(1.5f, numSteps, 40, 500, 20, 5, 0.9f), new ElevatorWithLoad(1.5f, numSteps), new BouncingBall(1.0f, numSteps),
+				new Elevator(1.0f, numSteps), new SingleBallSitGround(), new GeneralScenario1(3.0f, numSteps), new GeneralScenario2(8.0f, numSteps),
+				new SingleBallOnRamp(3.0f, numSteps) };
 		// @formatter:on
 
 		// True gravity = 21147 pixels/s^2
@@ -65,8 +59,7 @@ public class PhysicsTestPanel extends RenderPanel
 		// physicsSystemManager = new RealtimePhysicsSystemManager(0.0001f,
 		// 0.00001f, 1.0f, new SingleBallOnRamp());
 		setView(0, 0, 800, 800);
-		physicsSystemManager = new TestingPhysicsSystemManager(0.00002f, 0.1f,
-				true, physicsScenarios);
+		physicsSystemManager = new TestingPhysicsSystemManager(0.6, true, physicsScenarios);
 		physicsSystemManager.start();
 		startRender();
 	}
@@ -78,11 +71,10 @@ public class PhysicsTestPanel extends RenderPanel
 		g2d.fillRectAbsolute(0, 0, getWidth(), getHeight());
 
 		g2d.setColor(new Color(255, 0, 0));
-		List<Entity> entities = physicsSystemManager.copyForRender();
+		List<Entity> entities = physicsSystemManager.getState();
 		for (Entity entity : entities)
 		{
 			G2DRender.render(g2d, entity);
 		}
 	}
-
 }

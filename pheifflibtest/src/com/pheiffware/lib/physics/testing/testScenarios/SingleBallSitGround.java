@@ -18,7 +18,7 @@ public class SingleBallSitGround extends TestPhysicsScenario
 {
 	public SingleBallSitGround()
 	{
-		super(1.0f);
+		super(1.0f, 1000);
 	}
 
 	/*
@@ -29,13 +29,10 @@ public class SingleBallSitGround extends TestPhysicsScenario
 	@Override
 	public void setup(PhysicsSystem physicsSystem)
 	{
-		SphereEntity circle1 = new SphereEntity(new Vec3D(250, 450, 0),
-				new Vec3D(0, 0, 0), 25, 0.9f, 50);
+		SphereEntity circle1 = new SphereEntity(new Vec3D(250, 450, 0), new Vec3D(0, 0, 0), 25, 0.9f, 50);
 		physicsSystem.addEntity(circle1);
 
-		physicsSystem.addEntity(new WallEntity(new Vec3D(0, 500, 0), new Vec3D(
-				500, 500, 0), -1, new Vec3D(0, 0, 0), 1.0f));
-		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500,
-				0)));
+		physicsSystem.addEntity(new WallEntity(new Vec3D(0, 500, 0), new Vec3D(500, 500, 0), -1, new Vec3D(0, 0, 0), 1.0f));
+		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500, 0)));
 	}
 }

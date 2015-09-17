@@ -17,9 +17,9 @@ import com.pheiffware.lib.physics.testing.TestPhysicsScenario;
 public class SingleBallOnRamp extends TestPhysicsScenario
 {
 
-	public SingleBallOnRamp(float scenarioRuntime)
+	public SingleBallOnRamp(double scenarioRuntime, int numSteps)
 	{
-		super(scenarioRuntime);
+		super(scenarioRuntime, numSteps);
 	}
 
 	/*
@@ -30,13 +30,10 @@ public class SingleBallOnRamp extends TestPhysicsScenario
 	@Override
 	public void setup(PhysicsSystem physicsSystem)
 	{
-		SphereEntity circle1 = new SphereEntity(new Vec3D(250, 450, 0),
-				new Vec3D(0, 0, 0), 25, 0.9f, 50);
+		SphereEntity circle1 = new SphereEntity(new Vec3D(250, 450, 0), new Vec3D(0, 0, 0), 25, 0.9f, 50);
 		physicsSystem.addEntity(circle1);
 
-		physicsSystem.addEntity(new WallEntity(new Vec3D(0, 450, 0), new Vec3D(
-				1000, 550, 0), -1, new Vec3D(0, 0, 0), 1.0f));
-		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500,
-				0)));
+		physicsSystem.addEntity(new WallEntity(new Vec3D(0, 450, 0), new Vec3D(1000, 550, 0), -1, new Vec3D(0, 0, 0), 1.0f));
+		physicsSystem.addEntity(new DirectionalGravityEntity(new Vec3D(0, 500, 0)));
 	}
 }

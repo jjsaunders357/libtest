@@ -11,7 +11,8 @@ import com.pheiffware.lib.Utils;
 import com.pheiffware.lib.log.Log;
 import com.pheiffware.lib.physics.PhysicsSystem;
 import com.pheiffware.lib.physics.entity.Entity;
-import com.pheiffware.lib.simulation.SimulationManager;
+import com.pheiffware.lib.simulation.DeterministicSimulationRunner;
+import com.pheiffware.lib.simulation.SimulationRunner;
 
 /**
  * Designed to run the simulator in a background thread in a precise and
@@ -30,8 +31,8 @@ public class TestingPhysicsSystemManager
 	// this ratio to real time
 	private final double minRealSimTimeRatio;
 
-	private final SimulationManager<List<Entity>> simulationManager;
 	private final PhysicsSystem physicsSystem;
+	private SimulationRunner<List<Entity>> simulationRunner = null;
 
 	public TestingPhysicsSystemManager(double minRealSimTimeRatio, boolean randomizeEntityOrder, TestPhysicsScenario[] physicsScenarios)
 	{
@@ -39,9 +40,11 @@ public class TestingPhysicsSystemManager
 		this.physicsScenarios = physicsScenarios;
 		this.minRealSimTimeRatio = minRealSimTimeRatio;
 		physicsSystem = new PhysicsSystem();
-		simulationManager = new SimulationManager<List<Entity>>(physicsSystem);
 	}
 
+	/**
+	 * Starts the simulation.  
+	 */
 	public void start()
 	{
 		new Thread()
@@ -56,19 +59,36 @@ public class TestingPhysicsSystemManager
 					{
 						physicsSystem.randomizeEntityProcessingOrder_TESTING_ONLY(new Random());
 					}
-					long scenarioStart = System.nanoTime();
-					simulationManager.runDeterministicSimulationInBackground(physicsScenarios[i].getRuntime(), physicsScenarios[i].getNumSteps(),
-							minRealSimTimeRatio);
-					simulationManager.awaitCompletion();
-					Log.info("Ups : " + physicsScenarios[i].getNumSteps() / Utils.getTimeElapsed(scenarioStart));
+					changeScenario(physicsScenarios[i]);
+					simulationRunner.awaitCompletion();
+					Log.info("Ups : " + physicsScenarios[i].getNumSteps() / Utils.getTimeElapsed(simulationRunner.getRealStartTime()));
 				}
 			}
 		}.start();
 
 	}
 
-	public List<Entity> getState()
+	private synchronized void changeScenario(TestPhysicsScenario testPhysicsScenario)
 	{
-		return simulationManager.getState();
+		double timeStep = testPhysicsScenario.getRuntime() / testPhysicsScenario.getNumSteps();
+		simulationRunner = new DeterministicSimulationRunner<List<Entity>>(physicsSystem, timeStep, testPhysicsScenario.getNumSteps(),
+				minRealSimTimeRatio);
+		simulationRunner.start();
+	}
+
+	public synchronized List<Entity> getState()
+	{
+		// Waits until the 1st simulation starts
+		while (simulationRunner == null)
+			;
+		return simulationRunner.getState();
+	}
+
+	public void endCurrentScenario()
+	{
+		// Waits until the 1st simulation starts
+		while (simulationRunner == null)
+			;
+		simulationRunner.stop();
 	}
 }

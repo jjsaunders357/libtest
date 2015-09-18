@@ -1,7 +1,12 @@
 package com.pheiffware.lib.swing.testing;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 
 import com.pheiffware.lib.physics.entity.Entity;
 import com.pheiffware.lib.physics.testing.TestPhysicsScenario;
@@ -19,6 +24,7 @@ import com.pheiffware.lib.physics.testing.testScenarios.PoolScenario;
 import com.pheiffware.lib.physics.testing.testScenarios.SingleBallOnRamp;
 import com.pheiffware.lib.physics.testing.testScenarios.SingleBallSitGround;
 import com.pheiffware.lib.physics.testing.testScenarios.StackedObjects;
+import com.pheiffware.lib.swing.PheiffSwingUtils;
 import com.pheiffware.lib.swing.graphics.G2D;
 import com.pheiffware.lib.swing.graphics.G2DRender;
 import com.pheiffware.lib.swing.renderPanel.RenderPanel;
@@ -62,6 +68,15 @@ public class PhysicsTestPanel extends RenderPanel
 		physicsSystemManager = new TestingPhysicsSystemManager(0.6, true, physicsScenarios);
 		physicsSystemManager.start();
 		startRender();
+		PheiffSwingUtils.addKeyListenerToComponent(this, KeyEvent.VK_ESCAPE, JComponent.WHEN_IN_FOCUSED_WINDOW, new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				System.out.println("Skipping current scenario");
+				physicsSystemManager.endCurrentScenario();
+			}
+		});
 	}
 
 	@Override

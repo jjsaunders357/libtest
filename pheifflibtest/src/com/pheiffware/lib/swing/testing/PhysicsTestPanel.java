@@ -65,7 +65,7 @@ public class PhysicsTestPanel extends RenderPanel
 		// physicsSystemManager = new RealtimePhysicsSystemManager(0.0001f,
 		// 0.00001f, 1.0f, new SingleBallOnRamp());
 		setView(0, 0, 800, 800);
-		physicsSystemManager = new TestingPhysicsSystemManager(0.6, true, physicsScenarios);
+		physicsSystemManager = new TestingPhysicsSystemManager(1.6, true, physicsScenarios);
 		physicsSystemManager.start();
 		startRender();
 		PheiffSwingUtils.addKeyListenerToComponent(this, KeyEvent.VK_ESCAPE, JComponent.WHEN_IN_FOCUSED_WINDOW, new AbstractAction()
@@ -75,6 +75,14 @@ public class PhysicsTestPanel extends RenderPanel
 			{
 				System.out.println("Skipping current scenario");
 				physicsSystemManager.endCurrentScenario();
+			}
+		});
+		PheiffSwingUtils.addKeyListenerToComponent(this, KeyEvent.VK_SPACE, JComponent.WHEN_IN_FOCUSED_WINDOW, new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				physicsSystemManager.applyExternalInput("explode", true);
 			}
 		});
 	}

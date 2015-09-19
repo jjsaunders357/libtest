@@ -9,7 +9,6 @@ import java.util.Random;
 
 import com.pheiffware.lib.Utils;
 import com.pheiffware.lib.log.Log;
-import com.pheiffware.lib.physics.PhysicsSystem;
 import com.pheiffware.lib.physics.entity.Entity;
 import com.pheiffware.lib.simulation.DeterministicSimulationRunner;
 import com.pheiffware.lib.simulation.SimulationRunner;
@@ -29,17 +28,17 @@ public class TestingPhysicsSystemManager
 
 	// Use this ratio to delay updates to the simulation so that it flows with
 	// this ratio to real time
-	private final double minRealSimTimeRatio;
+	private final double maxSimTimePerSecond;
 
-	private final PhysicsSystem physicsSystem;
+	private final ExplodingPhysicsSystem physicsSystem;
 	private SimulationRunner<List<Entity>> simulationRunner = null;
 
-	public TestingPhysicsSystemManager(double minRealSimTimeRatio, boolean randomizeEntityOrder, TestPhysicsScenario[] physicsScenarios)
+	public TestingPhysicsSystemManager(double maxSimTimePerSecond, boolean randomizeEntityOrder, TestPhysicsScenario[] physicsScenarios)
 	{
 		this.randomizeEntityOrder = randomizeEntityOrder;
 		this.physicsScenarios = physicsScenarios;
-		this.minRealSimTimeRatio = minRealSimTimeRatio;
-		physicsSystem = new PhysicsSystem();
+		this.maxSimTimePerSecond = maxSimTimePerSecond;
+		physicsSystem = new ExplodingPhysicsSystem();
 	}
 
 	/**
@@ -71,8 +70,8 @@ public class TestingPhysicsSystemManager
 	private synchronized void changeScenario(TestPhysicsScenario testPhysicsScenario)
 	{
 		double timeStep = testPhysicsScenario.getRuntime() / testPhysicsScenario.getNumSteps();
-		simulationRunner = new DeterministicSimulationRunner<List<Entity>>(physicsSystem, timeStep, testPhysicsScenario.getNumSteps(),
-				minRealSimTimeRatio);
+		simulationRunner = new DeterministicSimulationRunner<List<Entity>>(physicsSystem, maxSimTimePerSecond, timeStep,
+				testPhysicsScenario.getNumSteps());
 		simulationRunner.start();
 	}
 
@@ -90,5 +89,13 @@ public class TestingPhysicsSystemManager
 		while (simulationRunner == null)
 			;
 		simulationRunner.stop();
+	}
+
+	public void applyExternalInput(String key, Object value)
+	{
+		// Waits until the 1st simulation starts
+		while (simulationRunner == null)
+			;
+		simulationRunner.applyExternalInput(key, value);
 	}
 }

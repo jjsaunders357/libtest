@@ -1,4 +1,4 @@
-package com.pheiffware.lib.swing.testing;
+package com.pheiffware.lib.examples.swing;
 
 import com.pheiffware.lib.swing.shapedFrame.ShapedFrameImage;
 

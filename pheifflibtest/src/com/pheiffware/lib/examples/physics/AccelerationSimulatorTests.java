@@ -1,5 +1,5 @@
 
-package com.pheiffware.lib.physics.testing;
+package com.pheiffware.lib.examples.physics;
 
 import static org.junit.Assert.assertTrue;
 

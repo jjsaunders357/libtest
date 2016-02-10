@@ -2,13 +2,13 @@
  * Created by Stephen Pheiffer.
  * Do not edit, distribute, modify or use without his permission.
  */
-package com.pheiffware.lib.physics.testing;
+package com.pheiffware.lib.examples.physics;
 
 import java.util.List;
 import java.util.Random;
 
 import com.pheiffware.lib.Utils;
-import com.pheiffware.lib.log.Log;
+import com.pheiffware.lib.log.PLog;
 import com.pheiffware.lib.physics.entity.Entity;
 import com.pheiffware.lib.simulation.DeterministicSimulationRunner;
 import com.pheiffware.lib.simulation.SimulationRunner;
@@ -60,7 +60,7 @@ public class TestingPhysicsSystemManager
 					}
 					changeScenario(physicsScenarios[i]);
 					simulationRunner.awaitCompletion();
-					Log.info("Ups : " + physicsScenarios[i].getNumSteps() / Utils.getTimeElapsed(simulationRunner.getRealStartTime()));
+					PLog.info("Ups : " + physicsScenarios[i].getNumSteps() / Utils.getTimeElapsed(simulationRunner.getRealStartTime()));
 				}
 			}
 		}.start();

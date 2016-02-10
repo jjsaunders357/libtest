@@ -5,4 +5,4 @@
 /**
  * Contains physics scenarios for testing.
  */
-package com.pheiffware.lib.physics.testing.testScenarios;
+package com.pheiffware.lib.examples.physics.testScenarios;

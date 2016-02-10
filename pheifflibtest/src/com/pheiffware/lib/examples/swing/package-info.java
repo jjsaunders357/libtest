@@ -5,4 +5,4 @@
  * @author Steve
  *
  */
-package com.pheiffware.lib.physics.testing;
+package com.pheiffware.lib.examples.swing;

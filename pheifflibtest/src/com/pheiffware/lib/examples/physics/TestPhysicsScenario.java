@@ -2,7 +2,7 @@
  * Created by Stephen Pheiffer.
  * Do not edit, distribute, modify or use without his permission.
  */
-package com.pheiffware.lib.physics.testing;
+package com.pheiffware.lib.examples.physics;
 
 import com.pheiffware.lib.physics.PhysicsSystem;
 

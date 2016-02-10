@@ -1,4 +1,4 @@
-package com.pheiffware.lib.physics.testing;
+package com.pheiffware.lib.examples.physics;
 
 import com.pheiffware.lib.geometry.Vec3D;
 import com.pheiffware.lib.physics.PhysicsSystem;

@@ -2,13 +2,13 @@
  * Created by Stephen Pheiffer.
  * Do not edit, distribute, modify or use without his permission.
  */
-package com.pheiffware.lib.physics.testing.testScenarios;
+package com.pheiffware.lib.examples.physics.testScenarios;
 
+import com.pheiffware.lib.examples.physics.TestPhysicsScenario;
 import com.pheiffware.lib.geometry.Vec3D;
 import com.pheiffware.lib.physics.PhysicsSystem;
 import com.pheiffware.lib.physics.entity.DirectionalGravityEntity;
 import com.pheiffware.lib.physics.entity.rigidBody.LineSegmentElevatorEntity;
-import com.pheiffware.lib.physics.testing.TestPhysicsScenario;
 
 /**
  *
